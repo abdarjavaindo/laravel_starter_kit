@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,13 +17,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [AuthenticatedSessionController::class, 'create']);
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -29,15 +28,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
-    Route::get('/admin', function () {
-        return '<h1>Admin</h1>';
-    })->name('admin');
-});
-
-Route::middleware(['auth', 'verified', 'role:user'])->group(function () {
-    Route::get('/user', function () {
-        return '<h1>User</h1>';
-    })->name('user');
+    Route::get('/user', [UserController::class, 'index'])->name('user');
 });
 
 require __DIR__ . '/auth.php';

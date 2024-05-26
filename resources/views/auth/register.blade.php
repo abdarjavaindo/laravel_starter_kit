@@ -1,52 +1,91 @@
-<x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
-        @csrf
+<x-layouts.auth>
 
-        <!-- Name -->
-        <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
-        </div>
+    <body class="app app-signup p-0">
+        <div class="row g-0 app-auth-wrapper">
+            <div class="col-12 col-md-7 col-lg-6 auth-main-col text-center p-5">
+                <div class="d-flex flex-column align-content-end">
+                    <div class="app-auth-body mx-auto">
 
-        <!-- Email Address -->
-        <div class="mt-4">
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
+                        <div class="app-auth-branding mb-4">
+                            <a class="app-logo" href="{{ env('APP_URL') }}">
+                                <img class="logo-icon me-2" src="{{ asset('assets') }}/images/app-logo.svg"
+                                    alt="logo">
+                            </a>
+                        </div>
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+                        <h2 class="auth-heading text-center mb-4">Sign up</h2>
 
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="new-password" />
+                        <div class="auth-form-container text-start mx-auto">
+                            <form class="auth-form auth-signup-form" method="POST" action="{{ route('register') }}">
+                                @csrf
+                                <div class="email mb-3">
+                                    <label class="sr-only" for="name">Nama</label>
+                                    <input id="name" name="name" type="text" class="form-control signup-name"
+                                        placeholder="Nama Lengkap" required="required" value="{{ old('name') }}">
+                                    @error('name')
+                                        <span class="text-danger" style="color:red">{{ $message }}</span>
+                                    @enderror
+                                </div>
 
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
+                                <div class="email mb-3">
+                                    <label class="sr-only" for="email">Email</label>
+                                    <input id="email" name="email" type="email"
+                                        class="form-control signup-email" placeholder="Email" required="required"
+                                        value="{{ old('email') }}">
+                                    @error('email')
+                                        <span class="text-danger" style="color:red">{{ $message }}</span>
+                                    @enderror
+                                </div>
 
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
+                                <div class="password mb-3">
+                                    <label class="sr-only" for="password">Password Baru</label>
+                                    <input id="password" name="password" type="password"
+                                        class="form-control signup-password" placeholder="Password Baru"
+                                        required="required">
+                                    @error('password')
+                                        <span class="text-danger" style="color:red">{{ $message }}</span>
+                                    @enderror
+                                </div>
 
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                            type="password"
-                            name="password_confirmation" required autocomplete="new-password" />
+                                <div class="password mb-3">
+                                    <label class="sr-only" for="password_confirmation">Konfirmasi Password</label>
+                                    <input id="password_confirmation" name="password_confirmation" type="password"
+                                        class="form-control signup-password" placeholder="Konfirmasi Password"
+                                        required="required">
+                                    @error('password_confirmation')
+                                        <span class="text-danger" style="color:red">{{ $message }}</span>
+                                    @enderror
+                                </div>
 
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-        </div>
+                                <div class="text-center">
+                                    <button type="submit" class="btn app-btn-primary w-100 theme-btn mx-auto">
+                                        Sign Up
+                                    </button>
+                                </div>
+                            </form><!--//auth-form-->
 
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
-            </a>
+                            <div class="auth-option text-center pt-1">Already have an account?
+                                <a class="text-link" href="{{ route('login') }}">Log in</a>
+                            </div>
+                        </div><!--//auth-form-container-->
 
-            <x-primary-button class="ms-4">
-                {{ __('Register') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+                    </div><!--//auth-body-->
+
+                    <footer class="app-auth-footer">
+                        <x-footer></x-footer>
+                    </footer>
+                    <!--//app-auth-footer-->
+
+                </div><!--//flex-column-->
+            </div><!--//auth-main-col-->
+            <div class="col-12 col-md-5 col-lg-6 h-100 auth-background-col">
+                {{-- change image below --}}
+                <div class="auth-background-holder"></div>
+
+                <div class="auth-background-mask"></div>
+            </div><!--//auth-background-col-->
+
+        </div><!--//row-->
+
+    </body>
+</x-layouts.auth>
